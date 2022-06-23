@@ -32,15 +32,11 @@ impl Driver {
                 .unwrap_or(false)
         );
 
-        match this.prepare() {
-            Ok(_) => Ok(this),
-            Err(err) => panic!("Ziperror with {:?}", &err),
+        if !this.path.is_dir() {
+            this.prepare()?;
         }
 
-        // if !this.path.is_dir() {
-        //     this.prepare()?;
-        // }
-        // Ok(this)
+        Ok(this)
     }
 
     /// Without prepare
@@ -54,7 +50,9 @@ impl Driver {
         println!("Installation prepared");
         let mut a = ZipArchive::new(io::Cursor::new(Self::ZIP))?;
         println!("Getting Archive");
-        a.extract(&self.path)
+        let result = a.extract(&self.path);
+        println!("Archive extracted");
+        return result;
     }
 
     pub fn default_dest() -> PathBuf {
