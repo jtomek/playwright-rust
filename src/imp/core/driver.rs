@@ -23,6 +23,17 @@ impl Driver {
         let this = Self::new(path);
         println!("Driver is located in {:?}", this.path);
         println!("Driver is_dir() {:?}", this.path.is_dir());
+
+        println!(
+            "Readable and is empty: {:?}",
+            this.path
+                .read_dir()
+                .map(|mut i| i.next().is_none())
+                .unwrap_or(false)
+        );
+
+        this.prepare()?;
+
         if !this.path.is_dir() {
             this.prepare()?;
         }
