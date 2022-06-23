@@ -32,12 +32,15 @@ impl Driver {
                 .unwrap_or(false)
         );
 
-        this.prepare()?;
-
-        if !this.path.is_dir() {
-            this.prepare()?;
+        match this.prepare() {
+            Ok(_) => Ok(this),
+            Err(err) => panic!("Ziperror with {:?}", &err),
         }
-        Ok(this)
+
+        // if !this.path.is_dir() {
+        //     this.prepare()?;
+        // }
+        // Ok(this)
     }
 
     /// Without prepare
