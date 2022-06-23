@@ -21,6 +21,7 @@ impl Driver {
 
     pub fn install_to_path(path: PathBuf) -> io::Result<Self> {
         let this = Self::new(path);
+        println!("Driver is located in {:?}", this.path);
         if !this.path.is_dir() {
             this.prepare()?;
         }
@@ -33,8 +34,11 @@ impl Driver {
     }
     ///
     pub fn prepare(&self) -> Result<(), ZipError> {
+        println!("Preparing installation");
         fs::create_dir_all(&self.path)?;
+        println!("Installation prepared");
         let mut a = ZipArchive::new(io::Cursor::new(Self::ZIP))?;
+        println!("Getting Archive");
         a.extract(&self.path)
     }
 
