@@ -22,6 +22,7 @@ impl Driver {
     pub fn install_to_path(path: PathBuf) -> io::Result<Self> {
         let this = Self::new(path);
         println!("Driver is located in {:?}", this.path);
+        println!("Driver is_dir() {:?}", this.path.is_dir());
         if !this.path.is_dir() {
             this.prepare()?;
         }
