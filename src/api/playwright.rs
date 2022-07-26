@@ -14,7 +14,11 @@ pub struct Playwright {
 }
 
 fn run(driver: &Driver, args: &'static [&'static str]) -> io::Result<()> {
-    let status = Command::new(driver.executable()).args(args).status()?;
+    let program = driver.executable();
+
+    println!("Exectutable here {:?}", program);
+
+    let status = Command::new(program).args(args).status()?;
     if !status.success() {
         return Err(io::Error::new(
             io::ErrorKind::Other,
