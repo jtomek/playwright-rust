@@ -12,17 +12,22 @@ impl Driver {
     const PLATFORM: &'static str = include_str!(concat!(env!("OUT_DIR"), env!("SEP"), "platform"));
 
     pub fn install() -> io::Result<Self> {
-        let this = Self::new(Self::default_dest());
+        let path = Self::default_dest();
+        println!("Path for driver install() {:?}", path);
+
+        let this = Self::new(path);
         if !this.path.is_dir() {
             this.prepare()?;
         }
         Ok(this)
     }
 
+    /**
+     * This is a new method that allows us to set the path outselves
+     */
     pub fn install_to_path(path: PathBuf) -> io::Result<Self> {
-        let this = Self::new(path);
-        println!("Driver is located in {:?}", this.path);
-        println!("Driver is_dir() {:?}", this.path.is_dir());
+        let this = Self::new(&path);
+        println!("Path for driver install_to_path() {:?}", path);
 
         println!(
             "Readable and is empty: {:?}",
@@ -79,12 +84,16 @@ impl Driver {
     }
 
     pub fn executable(&self) -> PathBuf {
-        match self.platform() {
+        let executable_path = match self.platform() {
             Platform::Linux => self.path.join("playwright.sh"),
             Platform::Mac => self.path.join("playwright.sh"),
             Platform::Win32 => self.path.join("playwright.cmd"),
             Platform::Win32x64 => self.path.join("playwright.cmd"),
-        }
+        };
+
+        println!("Executable path {:?}", executable_path);
+
+        return executable_path;
     }
 }
 
