@@ -2,3 +2,4 @@ target
 Cargo.lock
 driver
 tarpaulin-report.html
+.DS_STORE
