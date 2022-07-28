@@ -84,6 +84,11 @@ impl Driver {
     }
 
     pub fn executable(&self) -> PathBuf {
+        // Use own executable script
+        if let Ok(path) = env::var("EXECUTABLE_SCRIPT") {
+            return PathBuf::from(path);
+        }
+
         let executable_path = match self.platform() {
             Platform::Linux => self.path.join("playwright.sh"),
             Platform::Mac => self.path.join("playwright.sh"),
